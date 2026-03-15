@@ -7,6 +7,43 @@
     <title>Monitorowanie czasu pracy</title>
 </head>
 <body>
+    <?php
+        $plik = "czas_pracy.json";
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $imie = $_POST["imie"];
+        $nazwisko = $_POST["nazwisko"];
+        $start = $_POST["data_pocz"] . " " . $_POST["start_time"];
+        $koniec = $_POST["data_koniec"] . " " . $_POST["end_time"];
+
+        $start_ts = strtotime($start);
+        $koniec_ts = strtotime($koniec);
+
+        $roznica = $koniec_ts - $start_ts;
+        
+        $godziny = floor($roznica / 3600);
+        $minuty = floor(($roznica % 3600) / 60);
+
+        $czas_pracy = $godziny . "h " . $minuty . "m";
+
+        $nowy_wpis = [
+            "imie"=>$imie,
+            "nazwisko"=>$nazwisko,
+            "start"=>$start,
+            "koniec"=>$koniec,
+            "czas"=>$czas_pracy
+        ];
+        
+        if(file_exists($plik)){
+            $dane = json_decode(file_get_contents($plik), true);
+        } else {
+            $dane = [];
+        }
+
+        $dane[] = $nowy_wpis;
+
+        file_put_contents($plik, json_encode($dane, JSON_PRETTY_PRINT));
+    }
+    ?>
     <header>
         <h1>Monitorowanie czasu pracy</h1>
     </header>
@@ -49,8 +86,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-
+                    <?php
+                        if(file_exists("czas_pracy.json")){
+                        $dane = json_decode(file_get_contents("czas_pracy.json"), true);
+                        $lp = 1;
+                            
+                        foreach($dane as $osoba){
+                            echo "<tr>";
+                            echo "<td>".$lp++."</td>";
+                            echo "<td>".$osoba["imie"]."</td>";
+                            echo "<td>".$osoba["nazwisko"]."</td>";
+                            echo "<td>".$osoba["start"]."</td>";
+                            echo "<td>".$osoba["koniec"]."</td>";
+                            echo "<td>".$osoba["czas"]."</td>";
+                            echo "</tr>";
+                            }
+                        }
                     ?>
                 </tbody>    
             </table>
