@@ -23,17 +23,17 @@
         $godziny = floor($roznica / 3600);
         $minuty = floor(($roznica % 3600) / 60);
 
-        $czas_pracy = $godziny . "h " . $minuty . "m";
+        $czas_pracy = $godziny . " h " . $minuty . " m";
 
         $nowy_wpis = [
-            "imie"=>$imie,
-            "nazwisko"=>$nazwisko,
-            "start"=>$start,
-            "koniec"=>$koniec,
-            "czas"=>$czas_pracy
+            "imie" => $imie,
+            "nazwisko" => $nazwisko,
+            "start" => $start,
+            "koniec" => $koniec,
+            "czas" => $czas_pracy
         ];
         
-        if(file_exists($plik)){
+        if (file_exists($plik)) {
             $dane = json_decode(file_get_contents($plik), true);
         } else {
             $dane = [];
@@ -42,7 +42,7 @@
         $dane[] = $nowy_wpis;
 
         file_put_contents($plik, json_encode($dane, JSON_PRETTY_PRINT));
-    }
+        }
     ?>
     <header>
         <h1>Monitorowanie czasu pracy</h1>
@@ -87,11 +87,11 @@
                 </thead>
                 <tbody>
                     <?php
-                        if(file_exists("czas_pracy.json")){
+                        if (file_exists("czas_pracy.json")) {
                         $dane = json_decode(file_get_contents("czas_pracy.json"), true);
                         $lp = 1;
                             
-                        foreach($dane as $osoba){
+                        foreach ($dane as $osoba){
                             echo "<tr>";
                             echo "<td>".$lp++."</td>";
                             echo "<td>".$osoba["imie"]."</td>";
