@@ -12,13 +12,33 @@ footer {
 #S1 {
     border: 3px black solid;
     border-radius: 2px;
+    text-align: center;
+    padding: 15px;
 }
+
+
 
 #table1 {
     border: 2px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    justify-content: center;
 } 
 
 th {
     border: solid black 2px;
+}
 
+td {
+    border: solid 2px black;
+
+}
+
+.label {
+    margin: 5px;
+    padding: 10px;
+}
+
+h1 {
+    text-align: center;
 }
